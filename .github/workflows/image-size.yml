@@ -1,0 +1,31 @@
+name: Image size check
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  MAX_SIZE_MB: 300
+
+jobs:
+  image-size:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t catalog-api:pr .
+
+      - name: Check image size
+        run: |
+          SIZE_MB=$(( $(docker image inspect catalog-api:pr --format '{{.Size}}') / 1000000 ))
+          echo "### Image size: ${SIZE_MB} MB (limit ${MAX_SIZE_MB} MB)" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$SIZE_MB" -gt "$MAX_SIZE_MB" ]; then
+            echo "::error::Image is ${SIZE_MB} MB, over the ${MAX_SIZE_MB} MB limit"
+            exit 1
+          fi
+          echo "Image is ${SIZE_MB} MB, within the ${MAX_SIZE_MB} MB limit"

@@ -1,0 +1,19 @@
+{
+  "name": "catalog-api",
+  "version": "1.0.0",
+  "description": "Small product catalog API written in TypeScript",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "express": "^4.22.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.25",
+    "@types/node": "^20.19.43",
+    "typescript": "^5.9.3"
+  },
+  "license": "MIT"
+}
