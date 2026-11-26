@@ -25,4 +25,4 @@ SELECT 1 + (g % 50000),
        (ARRAY['new','paid','shipped','refunded'])[1 + g % 4],
        round((random() * 500)::numeric, 2),
        now() - (g % 730) * interval '1 day'
-FROM generate_series(1, 8000000) g;
+FROM generate_series(1, 16000000) g;
